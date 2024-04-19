@@ -1,0 +1,37 @@
+[build-system]
+requires = ["scikit-build-core"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "PyRepeatFinder"
+version = "0.01.0"
+authors = [
+  {name = "Rob Edwards", email = "raedwards@gmail.com"}
+]
+maintainers = [
+  {name = "Rob Edwards", email = "raedwards@gmail.com"}
+]
+
+description = "Rapidly identify repeats in a DNA sequence"
+readme = "README.md"
+repository = "https://github.com/linsalrob/repeat_finder/"
+classifiers =  [
+    "Environment :: Console",
+    "Environment :: MacOS X",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: C",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
+[project.scripts]
+repeat_finder = "repeat_finder.cli:run"
+
+[[tool.scikit-build.generate]]
+path = "repeat_finder/_version.py"
+template = '''
+version = "${version}"
+'''

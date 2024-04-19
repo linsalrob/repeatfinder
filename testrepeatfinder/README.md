@@ -1,10 +1,6 @@
-# Repeat Finder - Finding Repeats in DNA sequences
+# Repeat Finder
 
-Repeatfinder is a stand alone program to quickly find repeats in DNA sequences. You might find that it is remarkably similar to an essential module in [PhiSpy](http://github.com/linsalrob/PhiSpy).
-
-
-
-
+This is an essential module in [PhiSpy](http://github.com/linsalrob/PhiSpy), and this version is both a test bed and a stand alone implementation.
 
 To compile this as a stand-alone application, you will need to install `python-dev`.
 
