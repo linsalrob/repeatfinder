@@ -9,8 +9,7 @@ from .rob_error import ColorNotFoundError
 
 __author__ = 'Rob Edwards'
 
-
-class colours():
+class Colours():
     """
     Some colours to make things pretty
     """
@@ -29,51 +28,6 @@ class colours():
     YELLOW = '\033[93m'
     RED = '\033[91m'
     WHITE = '\033[0m'
-
-
-class colors():
-    """
-    Some colours to make things pretty
-    """
-    # these are here for legacy reasons
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-
-    PINK = '\033[95m'
-    BLUE = '\033[94m'
-    GREEN = '\033[92m'
-    YELLOW = '\033[93m'
-    RED = '\033[91m'
-    WHITE = '\033[0m'
-
-    color = {
-        'HEADER': '\033[95m',
-        'OKBLUE': '\033[94m',
-        'OKGREEN': '\033[92m',
-        'WARNING': '\033[93m',
-        'FAIL': '\033[91m',
-        'ENDC': '\033[0m',
-        'BOLD': '\033[1m',
-        'UNDERLINE': '\033[4m',
-        'PINK': '\033[95m',
-        'BLUE': '\033[94m',
-        'GREEN': '\033[92m',
-        'YELLOW': '\033[93m',
-        'RED': '\033[91m',
-        'WHITE': '\033[0m',
-        }
-
-
-    def get(self, color):
-        if color in self.color:
-            return self.color[color]
-        raise ColorNotFoundError(f"Color {color} was not found")
 
 def message(msg, color):
     """
