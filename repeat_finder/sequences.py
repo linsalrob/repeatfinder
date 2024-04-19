@@ -29,7 +29,8 @@ def stream_fastq(fqfile):
         if not header:
             break
         if not header.startswith("@"):
-            raise FastqFormatError(f"The file {fqfile} does not appear to be a four-line fastq file at line {linecounter}")
+            raise FastqFormatError(
+                f"The file {fqfile} does not appear to be a four-line fastq file at line {linecounter}")
         header = header.strip()
         seqidparts = header.split(' ')
         seqid = seqidparts[0]
@@ -109,7 +110,9 @@ def stream_gfa_sequences(gfafile):
         if gfafile.endswith('.gz'):
             f = gzip.open(gfafile, 'rt')
         elif gfafile.endswith('.lrz'):
-            f = subprocess.Popen(['/usr/bin/lrunzip', '-q', '-d', '-f', '-o-', gfafile], stdout=subprocess.PIPE).stdout
+            f = subprocess.Popen(['/usr/bin/lrunzip', '-q', '-d', '-f', '-o-', 
+                                  gfafile], 
+                                 stdout=subprocess.PIPE).stdout
         else:
             f = open(gfafile, 'r')
     except IOError as e:
