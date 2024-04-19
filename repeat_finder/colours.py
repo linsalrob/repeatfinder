@@ -46,6 +46,18 @@ class Colours():
         'WHITE': '\033[0m',
     }
 
+    def get(self, col):
+        """
+        get a colour
+        """
+        return self.colour[col] if col in self.colour else self.colour['WHITE']
+
+    def set(self, name, val):
+        """
+        set a colour
+        """
+        self.colour[name] = val
+
 
 def message(msg, color):
     """

@@ -50,4 +50,3 @@ def run():
     args = parser.parse_args()
 
     repeats_in_fasta(args.f, args.g, args.v)
-

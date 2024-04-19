@@ -1,4 +1,8 @@
-from .cli import find_dna_repeats, repeats_in_fasta, run 
+"""
+Initialisation code
+"""
+
+from .cli import find_dna_repeats, repeats_in_fasta, run
 from .colours import Colours, message
 from .rob_error import FastqFormatError, ColorNotFoundError
 from .sequences import stream_fastq, stream_fasta, stream_gfa_sequences

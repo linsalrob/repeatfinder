@@ -2,13 +2,7 @@
 An Error Class so I can write my own errors
 """
 
-class Error(Exception):
-    """
-    Base class for exceptions in this module.
-    """
-    True
-
-class FastqFormatError(Error):
+class FastqFormatError(Exception):
     """
     Exception raised for sequences not being paired properly.
 
@@ -19,7 +13,7 @@ class FastqFormatError(Error):
         self.message = message
         super().__init__(self.message)
 
-class ColorNotFoundError(Error):
+class ColorNotFoundError(Exception):
     """
     Exception raised for a color not being found.
 
