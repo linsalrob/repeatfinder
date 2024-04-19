@@ -1,21 +1,21 @@
 
 
-#ifndef PHISPYREPEATFINDER_H
-#define PHISPYREPEATFINDER_H
+#ifndef PYREPEATFINDER_H
+#define PYREPEATFINDER_H
 
 static PyObject * python_input(PyObject *self, PyObject *args);
 
-static PyMethodDef PhiSpyRepeatFinderMethods[] = {
-    {"repeatFinder", python_input, METH_VARARGS, "Python interface for C++ repeat finder for PhiSpy"},
+static PyMethodDef PyRepeatFinderMethods[] = {
+    {"find_repeats", python_input, METH_VARARGS, "Python interface for C++ repeat finder for DNA sequences"},
     {NULL, NULL, 0, NULL}
 };
 
-static struct PyModuleDef PhiSpyRepeatFinderModule = {
+static struct PyModuleDef PyRepeatFinderModule = {
     PyModuleDef_HEAD_INIT,
-    "repeatFinder",
-    "Python for a C++ repeat finder used by PhiSpy to identify potential prophage ends",
+    "find_repeats",
+    "Python for a C++ repeat finder to find repeats in DNA sequences",
     -1,
-    PhiSpyRepeatFinderMethods
+    PyRepeatFinderMethods
 };
 
-#endif //PHISPYREPEATFINDER_H
+#endif //PYREPEATFINDER_H

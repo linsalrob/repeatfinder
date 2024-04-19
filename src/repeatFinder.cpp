@@ -413,5 +413,5 @@ python_input(PyObject *self, PyObject *args) {
 
 
 PyMODINIT_FUNC PyInit_PyRepeatFinder(void) {
-    return PyModule_Create(&PhiSpyRepeatFinderModule);
+    return PyModule_Create(&PyRepeatFinderModule);
 }
