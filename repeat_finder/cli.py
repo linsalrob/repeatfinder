@@ -1,8 +1,7 @@
 """
-
+Command line invocations for find_repeats
 """
 
-import os
 import sys
 import argparse
 from PyRepeatFinder import find_repeats
@@ -17,9 +16,9 @@ def find_dna_repeats(seqid, dna_seq, gap_len=0, verbose=False):
 
     if verbose:
         print(f"Finding repeats in {seqid} with seq {dna_seq}", file=sys.stderr)
-    
+
     r = find_repeats(dna_seq, gap_len)
-    
+
     for rpt in r:
         rptlen = rpt['first_end']-rpt['first_start']+1
         data = [seqid, f"Number:{rpt['repeat_number']}", f"Len:{rptlen}",
@@ -30,6 +29,9 @@ def find_dna_repeats(seqid, dna_seq, gap_len=0, verbose=False):
 
 
 def repeats_in_fasta(fafile, gaplen, verbose=False):
+    """
+    Find all the repeats in the sequences in a fasta file
+    """
     for seqid, seq in stream_fasta(fafile):
         if verbose:
             print(f"Seqid: {seqid}\nSequence: {seq}", file=sys.stderr)
@@ -37,6 +39,10 @@ def repeats_in_fasta(fafile, gaplen, verbose=False):
 
 
 def run():
+    """
+    Command line run for repeat finder
+    """
+
     parser = argparse.ArgumentParser(description='Calculate the repeat sequences in a DNA sequence')
     parser.add_argument('-f', help='fasta file of DNA sequences', required=True)
     parser.add_argument('-g', help='gap length (default=0)', type=int, default=0)
