@@ -10,7 +10,10 @@ from .rob_error import ColorNotFoundError
 __author__ = 'Rob Edwards'
 
 
-class colours(object):
+class colours():
+    """
+    Some colours to make things pretty
+    """
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
@@ -28,8 +31,10 @@ class colours(object):
     WHITE = '\033[0m'
 
 
-class colors(object):
-    
+class colors():
+    """
+    Some colours to make things pretty
+    """
     # these are here for legacy reasons
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -68,8 +73,7 @@ class colors(object):
     def get(self, color):
         if color in self.color:
             return self.color[color]
-        else:
-            raise ColorNotFoundError(f"Color {color} was not found")
+        raise ColorNotFoundError(f"Color {color} was not found")
 
 def message(msg, color):
     """

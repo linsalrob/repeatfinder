@@ -1,11 +1,6 @@
 """
 An Error Class so I can write my own errors
 """
-class Error(Exception):
-    """
-    Base class for exceptions in this module.
-    """
-    pass
 
 class SequencePairError(Error):
     """

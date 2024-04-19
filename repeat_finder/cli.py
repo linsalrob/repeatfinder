@@ -11,6 +11,10 @@ from .sequences import stream_fasta
 __author__ = 'Rob Edwards'
 
 def find_dna_repeats(seqid, dna_seq, gap_len=0, verbose=False):
+    """
+    find the repeats in a dna sequence
+    """
+
     if verbose:
         print(f"Finding repeats in {seqid} with seq {dna_seq}", file=sys.stderr)
     
