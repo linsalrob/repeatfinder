@@ -18,7 +18,7 @@ def find_dna_repeats(seqid, dna_seq, gap_len=0, min_len=0, verbose=False):
         print(f"Finding repeats in {seqid} with seq {dna_seq}", file=sys.stderr)
 
     # if(!PyArg_ParseTuple(args, "siii", &dna, &gap_len, &output_rep_len, &debug))
-    r = find_repeats(dna_seq, gap_len, min_len, 1)
+    r = find_repeats(dna_seq, gap_len, min_len, 0)
 
     ## NOTE: The numbers returned by find_repeats are 1 indexed!!
 
