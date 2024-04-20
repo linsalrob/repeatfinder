@@ -312,6 +312,11 @@ void run() {
 	complement['T']='A';
 	complement['t']='a';
 
+	// clear the vectors
+	rep.clear();
+	for (int k=0; k<HASH_LEN; k++)
+		allrepeats[k].clear();
+
 	find_repeats();
 	extend_repeats();
 
