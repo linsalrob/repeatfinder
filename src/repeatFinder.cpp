@@ -10,16 +10,17 @@
 
 using namespace std;
 
-#define REPEAT_LEN                    11
+#define REPEAT_LEN                    5
 #define HASH_LEN     (1<<(REPEAT_LEN*2))
 
 unsigned INIT_DNA_LEN = 120000000; 
 
 char inputfile[256] = "test.fasta";
 char *dna;
-int converter[128], complement[128];
+int complement[128];
 int dna_len;
 int output_rep_len = REPEAT_LEN;
+int debug = 0;
 
 vector<int> allrepeats[HASH_LEN];
 struct repeat{
@@ -32,37 +33,8 @@ struct repeat{
 }R;
 
 vector<repeat> rep;
-int gap_len = 0;//allow gap < gap_len
+int gap_len = 0; //allow gap < gap_len
 
-
-void input()
-{
-	FILE *f;
-	dna = new char[INIT_DNA_LEN+1];
-	if(!dna){
-		printf("Can not allocate memory\n");
-		exit(0);
-	}
-
-	//input dna
-	f = fopen(inputfile, "r");
-	if(f == NULL){
-		printf("Can not find input file %s\n",inputfile);
-		exit(0);
-	}
-	char *my_new_check  [[maybe_unused]] = fgets(dna,INIT_DNA_LEN,f);
-	
-	strcpy(dna,"");
-	while(fscanf(f, "%s", dna+dna_len)==1) {
-		int t = strlen(dna+dna_len);
-		dna_len += t;
-	}
-	fclose(f);
-
-	//cout << dna << endl;
-
-	//printf("dna len = %d\n",dna_len);
-}
 
 int two_bit_encode(int x) {
     // convert a base to a two bit encode
@@ -84,37 +56,60 @@ int two_bit_encode(int x) {
     }
 }
 
+
+
+void input()
+{
+	FILE *f;
+	dna = new char[INIT_DNA_LEN+1];
+	if(!dna){
+		printf("Can not allocate memory\n");
+		exit(0);
+	}
+
+	//input dna
+	f = fopen(inputfile, "r");
+	if(f == NULL){
+		printf("Can not find input file %s\n",inputfile);
+		exit(0);
+	}
+	char *my_new_check = fgets(dna,INIT_DNA_LEN,f);
+	(void) my_new_check; // remove an unused parameter warning
+	
+	strcpy(dna,"");
+	while(fscanf(f, "%s", dna+dna_len)==1) {
+		int t = strlen(dna+dna_len);
+		dna_len += t;
+	}
+	fclose(f);
+
+	//printf("dna len = %d\n",dna_len);
+}
+
 // find all the 11 length substring and store their start position
 void find_repeats()
 {
 	int key,start,keylen=2*(REPEAT_LEN-1);
 
 	key = 0;
-	for(start = 0;start < REPEAT_LEN; start++) {
-	        // cout << "key: " << key << " (key<<2) " << (key<<2) << " base: "<< dna[start] << " converter " << two_bit_encode((int) dna[start]) << endl;
-			// key = (key<<2) + converter[(int) dna[start]];
-			key = (key<<2) + two_bit_encode((int) dna[start]);
-    }
+	for(start = 0;start < REPEAT_LEN; start++)
+		key = (key<<2) + two_bit_encode((int) dna[start]);
 	allrepeats[key].push_back(0);
 
 	for(start = 1;start < dna_len-REPEAT_LEN+1; start++)
 	{
-		//key = ((key&((1<<keylen)-1))<< 2) + converter[(int) dna[start+REPEAT_LEN-1]];
 		key = ((key&((1<<keylen)-1))<< 2) + two_bit_encode((int) dna[start+REPEAT_LEN-1]);
-		// cout << "Base: " << dna[start+REPEAT_LEN-1] << " Convert: " << two_bit_encode((int) dna[start+REPEAT_LEN-1]) << " key: " << key << " start: " << start << endl;
-    	allrepeats[key].push_back(start);
+		allrepeats[key].push_back(start);
 	}
 
 	//find reverse repeat
 	key = 0;
 	for(start = dna_len-1;start >dna_len-1-REPEAT_LEN; start--)
-		// key = (key<<2) + converter[complement[(int) dna[start]]];
 		key = (key<<2) + two_bit_encode(complement[(int) dna[start]]);
 	allrepeats[key].push_back((dna_len-1)*(-1));
 	
 	for(start = dna_len-2;start >REPEAT_LEN-2; start--)
 	{
-		//key= ((key&((1<<keylen)-1))<<2) + converter[complement[(int) dna[start-REPEAT_LEN+1]]];
 		key= ((key&((1<<keylen)-1))<<2) + two_bit_encode(complement[(int) dna[start-REPEAT_LEN+1]]);
 		allrepeats[key].push_back(start*(-1));
 	}
@@ -138,6 +133,10 @@ void find_maxlen(int fst, int sec)
 			k++;
 		else 
 			break;
+
+    if (debug && sec > dna_len) {
+        fprintf(stderr, "In find_maxlen we added a repeat with sec %d that is longer than dna_len (%d)\n", sec, dna_len);
+    }
 
 	R.fst=fst+1;
 	R.sec=sec+1;
@@ -184,19 +183,16 @@ void extend_repeats()
 
 	key = 0;
 	for(i = 0;i < REPEAT_LEN; i++)
-		// key = (key<<2) + converter[(int) dna[i]];
 		key = (key<<2) + two_bit_encode((int) dna[i]);
-
-	for(j=0;j<(int) allrepeats[key].size();j++)
+	for(j=0; j < (int) allrepeats[key].size(); j++)
 		if(allrepeats[key][j]<0)
 			find_maxlen_rev(0,allrepeats[key][j]);
 		else
 			find_maxlen(0,allrepeats[key][j]);
 
 	for(i =1;i<dna_len-REPEAT_LEN+1;i++){
-		//key = ((key&((1<<keylen)-1))<< 2) + converter[(int) dna[i+REPEAT_LEN-1]];
 		key = ((key&((1<<keylen)-1))<< 2) + two_bit_encode((int) dna[i+REPEAT_LEN-1]);
-		for(j=0;j<(int) allrepeats[key].size();j++)
+		for(j=0; j < (int) allrepeats[key].size(); j++)
 			if(allrepeats[key][j]<0)
 				find_maxlen_rev(i,allrepeats[key][j]);
 			else
@@ -208,39 +204,37 @@ int check_extend(int fst,int n)
 {
 	int i,j = rep[fst].fst + rep[fst].len -1 +n, len = rep.size(),k, head , tail, mid;
 
+
 	// binery search
 	head = fst+1;
 	tail = len-1;
-    mid = (head +tail)/2;
+	mid = (head +tail)/2;
 	while(rep[mid].fst!= j && head<=tail){
 		mid = (head +tail)/2;
 		if(rep[mid].fst<j)
 			head = mid+1;
 		else
-			tail = mid -1;
+			tail = mid-1;
 	}
 
-    if (head <= tail)
-        return -1;
+	if (head <= tail)
+		return -1;
 
-    i = mid-1;
+	i = mid-1;
+	// while (rep[mid].fst == rep[i].fst && i >-1)
 	while(rep[mid].fst == rep[i].fst && i > tail-1)
 		i--;
 	i++;
 ////
 	k = rep[fst].sec+rep[fst].seclen -1;
-
-
-    for(; i < (int) rep.size() && rep[i].fst == j;i++) {
-        if (rep[i].visited == 0) {
-            if ((rep[i].fst + rep[i].len - 1) < rep[fst].sec ||
-                (rep[i].fst + rep[i].len - 1) < (rep[i].sec) * (-1) - rep[i].seclen + 1)
-                //check for 2nd copy
-                if (rep[i].sec - k <= gap_len && rep[i].sec - k >= 0)
-                    return i;
-        }
-        std::cerr << " j: " << j << " fst " << rep[i].fst << " i: " << i << " size: " << rep.size() << std::endl;
-    }
+	
+	for(; i < (int) rep.size() && rep[i].fst == j;i++)
+		if(rep[i].visited == 0){
+			if ( (rep[i].fst + rep[i].len -1) <rep[fst].sec || (rep[i].fst + rep[i].len -1)<(rep[i].sec)*(-1)-rep[i].seclen+1)
+				//check for 2nd copy
+				if(rep[i].sec-k <= gap_len && rep[i].sec-k >= 0)
+					return i;
+		}		
 	return -1;
 }
 	
@@ -266,26 +260,41 @@ void extend_gapped_repeat()
 			}
 }	
 
+
+void write_dna()
+{
+// write the dna sequence we are testing to a file. This is for debugging purposes!
+    FILE *f;
+	char outputfile[300];
+
+    sprintf(outputfile, "%s.prophage.fasta", inputfile);
+    f = fopen(outputfile,"w");
+    fprintf(f, ">repeat\n%s\n", dna);
+    fclose(f);
+}
+
 void print_output()
 {
 	int i,j;
 	FILE *f;
-	char outputfile[256];
+	char outputfile[300];
 
-    strcpy (outputfile,inputfile);
-    strcat (outputfile,".repeatfinder");
+
+    sprintf(outputfile, "%s.prophage.repeatfinder", inputfile);
     f = fopen(outputfile,"w");
+    fprintf(f, "First repeat start\tFirst repeat end\tSecond repeat start\tSecond repeat end\tFirst len\tSecond len\tExact\tVisited\n");
 
 	j = rep.size();
 
 	int totalRep = 0;
 	for(i=0;i<j;i++)
-		if(rep[i].visited==0 && rep[i].len>= output_rep_len){
+		if(rep[i].visited==0 && rep[i].len > output_rep_len){
 			fprintf(f,"%d\t%d\t",rep[i].fst,rep[i].fst+rep[i].len-1);
 			if(rep[i].sec>-1)
-				fprintf(f,"%d\t%d\n",rep[i].sec,rep[i].sec+rep[i].seclen-1);	
+				fprintf(f,"%d\t%d",rep[i].sec,rep[i].sec+rep[i].seclen-1);
 			else
-				fprintf(f,"%d\t%d\n",rep[i].sec*(-1),(rep[i].sec+rep[i].seclen-1)*(-1));
+				fprintf(f,"%d\t%d",rep[i].sec*(-1),(rep[i].sec+rep[i].seclen-1)*(-1));
+			fprintf(f, "\t%d\t%d\t%d\t%d\n", rep[i].len, rep[i].seclen, rep[i].exact, rep[i].visited);
 			totalRep++;
 		}
 	fclose(f);
@@ -295,27 +304,14 @@ void print_output()
 void run() {
 
 	//initialize
-	converter['A']=0;
-	converter['a']=0;
-	converter['C']=1;
-	converter['c']=1;
-	converter['G']=2;
-	converter['g']=2;
-	converter['T']=3;
-	converter['t']=3;
-	complement['A']='T';
-	complement['a']='t';
-	complement['C']='G';
-	complement['c']='g';
-	complement['G']='C';
-	complement['g']='c';
-	complement['T']='A';
-	complement['t']='a';
-
-	// clear the vectors
-	rep.clear();
-	for (int k=0; k<HASH_LEN; k++)
-		allrepeats[k].clear();
+	complement[(int) 'A']='T';
+	complement[(int) 'a']='t';
+	complement[(int) 'C']='G';
+	complement[(int) 'c']='g';
+	complement[(int) 'G']='C';
+	complement[(int) 'g']='c';
+	complement[(int) 'T']='A';
+	complement[(int) 't']='a';
 
 	find_repeats();
 	extend_repeats();
@@ -368,22 +364,25 @@ int main(int argc, char **argv)
 	input();
     run();
     print_output();
+    write_dna();
 	return 0;
 }
 
-static PyObject *
+PyObject *
 python_input(PyObject *self, PyObject *args) {
     /* Parse arguments */
-    if(!PyArg_ParseTuple(args, "si", &dna, &gap_len)) {
+    if(!PyArg_ParseTuple(args, "siii", &dna, &gap_len, &output_rep_len, &debug)) {
         PyErr_SetString(PyExc_RuntimeError, "Could not parse the arguments to python_input");
         return NULL;
     }
     dna_len = strlen(dna);
     run();
 
-    // incase you need to debug, uncomment these two lines
-    //strcpy(inputfile, "ROBTEST");
-    //print_output();
+    if (debug) {
+        strcpy(inputfile, "DEBUGGING_REPEATFINDER");
+        print_output();
+        write_dna();
+    }
 
     // convert our vector of arrays to a Python object
     Py_ssize_t len = rep.size();
@@ -392,7 +391,7 @@ python_input(PyObject *self, PyObject *args) {
 
     int totalRep = 0;
 	for(int i=0;i<len;i++) {
-		if(rep[i].visited==0 && rep[i].len>= output_rep_len){
+		if(rep[i].visited==0 && rep[i].len > output_rep_len){
             // we just use a temp variable to deal with the
             // case when second start < 0
 		    int ss = rep[i].sec;
@@ -410,9 +409,17 @@ python_input(PyObject *self, PyObject *args) {
             "second_start", ss,
             "second_end", se
             );
+	   rep[i].visited=1;
            PyList_Append(result, item);
            }
     }
+
+    // CRITICAL: We need to reset the repeats before we
+    // call this method again from within the same run!
+    for (int i=0; i<HASH_LEN; i++)
+        allrepeats[i].clear();
+
+    rep.clear();
     return result;
 }
 
