@@ -35,3 +35,11 @@ path = "dna_repeat_finder/_version.py"
 template = '''
 version = "${version}"
 '''
+
+[tool.scikit-build]
+# Setting py-api to "cp37" would build ABI3 wheels for Python 3.7+.  If CPython
+# is less than this value, or on PyPy, this will be ignored.  Setting the api to
+# "py3" or "py2.py3" would build wheels that don't depend on Python (ctypes,
+# etc).
+wheel.py-api = "cp37"
+wheel.packages = []
