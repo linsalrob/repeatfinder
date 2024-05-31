@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "PyDNARepeatFinder"
-version = "0.2.1"
+version = "0.2.3"
 authors = [
   {name = "Rob Edwards", email = "raedwards@gmail.com"}
 ]
