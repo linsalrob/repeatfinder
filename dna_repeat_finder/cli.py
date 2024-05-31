@@ -6,6 +6,7 @@ import sys
 import argparse
 from PyRepeatFinder import find_repeats
 from .sequences import stream_fasta
+from ._version import __version__
 
 __author__ = 'Rob Edwards'
 
@@ -64,10 +65,20 @@ def run():
     """
 
     parser = argparse.ArgumentParser(description='Calculate the repeat sequences in a DNA sequence')
-    parser.add_argument('-f', help='fasta file of DNA sequences', required=True)
-    parser.add_argument('-m', help='minimum repeat length', type=int, default=11)
-    parser.add_argument('-g', help='gap length (default=0)', type=int, default=0)
-    parser.add_argument('-v', help='verbose output', action='store_true')
+    parser.add_argument('-f', '--fasta', help='fasta file of DNA sequences')
+    parser.add_argument('-m', '--minlen', help='minimum repeat length', type=int, default=11)
+    parser.add_argument('-g', '--gaplen', help='gap length (default=0)', type=int, default=0)
+    parser.add_argument('--version', help='print the version and exit', action="store_true")
+    parser.add_argument('-v', '--verbose', help='verbose output', action='store_true')
+
     args = parser.parse_args()
 
-    repeats_in_fasta(args.f, args.g, args.m, args.v)
+    if args.version:
+        print(__version__)
+        sys.exit(0)
+
+    if not args.fasta:
+        print("Please specify at least a fasta file", file=sys.stderr)
+        sys.exit(2)
+
+    repeats_in_fasta(args.fasta, args.gaplen, args.minlen, args.verbose)
