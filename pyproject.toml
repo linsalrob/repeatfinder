@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "PyDNARepeatFinder"
-version = "0.2.4"
+version = "0.2.5"
 authors = [
   {name = "Rob Edwards", email = "raedwards@gmail.com"}
 ]
@@ -28,10 +28,10 @@ classifiers =  [
 ]
 
 [project.scripts]
-dna_repeatfinder = "dna_repeatfinder.cli:run"
+pydna_repeatfinder = "pydna_repeatfinder.cli:run"
 
 [[tool.scikit-build.generate]]
-path = "dna_repeatfinder/_version.py"
+path = "pydna_repeatfinder/_version.py"
 template = '''
 version = "${version}"
 '''
