@@ -14,7 +14,7 @@ maintainers = [
 
 description = "Rapidly identify repeats in a DNA sequence"
 readme = "README.md"
-repository = "https://github.com/linsalrob/repeat_finder/"
+repository = "https://github.com/linsalrob/repeatfinder/"
 classifiers =  [
     "Environment :: Console",
     "Environment :: MacOS X",
@@ -28,10 +28,10 @@ classifiers =  [
 ]
 
 [project.scripts]
-dna_repeat_finder = "dna_repeat_finder.cli:run"
+dna_repeatfinder = "dna_repeatfinder.cli:run"
 
 [[tool.scikit-build.generate]]
-path = "dna_repeat_finder/_version.py"
+path = "dna_repeatfinder/_version.py"
 template = '''
 version = "${version}"
 '''
