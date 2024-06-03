@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "PyDNARepeatFinder"
-version = "0.2.5"
+version = "0.2.6"
 authors = [
   {name = "Rob Edwards", email = "raedwards@gmail.com"}
 ]
@@ -28,7 +28,7 @@ classifiers =  [
 ]
 
 [project.scripts]
-pydna_repeatfinder = "pydna_repeatfinder.cli:run"
+pydna_repeatfinder = "PyDNARepeatFinder.cli:run"
 
 [[tool.scikit-build.generate]]
 path = "pydna_repeatfinder/_version.py"
@@ -42,4 +42,4 @@ version = "${version}"
 # "py3" or "py2.py3" would build wheels that don't depend on Python (ctypes,
 # etc).
 # wheel.py-api = "cp37"
-# wheel.packages = []
+wheel.packages = ["pydna_repeatfinder"]

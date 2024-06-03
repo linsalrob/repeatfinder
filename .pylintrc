@@ -152,7 +152,7 @@ class-attribute-naming-style=any
 # Naming style matching correct class constant names.
 # class-const-naming-style=UPPER_CASE
 disable=
-	E0611 # import-error
+	E0611 # no-name-in-module
 
 
 	# C0103, # uppercase naming style
