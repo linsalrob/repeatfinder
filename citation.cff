@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+title: pydna_repeatfinder
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Robert
+    name-particle: Robert
+    family-names: Edwards
+    email: raedwards@gmail.com
+    affiliation: Flinders University
+    orcid: 'https://orcid.org/0000-0001-8383-8949'
+identifiers:
+  - type: doi
+    value: 
+    description: Zenodo repository of release 0.1
+repository-code: 'https://github.com/linsalrob/repeat_finder'
+abstract: >-
+  pydna_repeatfinder is a module and C++ code for finding exact
+  and inexact repeats in DNA sequences.
+keywords:
+  - DNA sequencing
+  - microbiome
+  - bacteria
+  - virus
+license: MIT
+
