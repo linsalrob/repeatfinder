@@ -13,8 +13,8 @@ authors:
     orcid: 'https://orcid.org/0000-0001-8383-8949'
 identifiers:
   - type: doi
-    value: 
-    description: Zenodo repository of release 0.1
+    value: 10.5281/zenodo.11565326
+    description: Zenodo repository of release 0.2.9
 repository-code: 'https://github.com/linsalrob/repeat_finder'
 abstract: >-
   pydna_repeatfinder is a module and C++ code for finding exact

@@ -1,7 +1,7 @@
 [![Edwards Lab](https://img.shields.io/badge/Bioinformatics-EdwardsLab-03A9F4)](https://edwards.sdsu.edu/research)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![GitHub language count](https://img.shields.io/github/languages/count/linsalrob/repeat_finder)
-[![DOI](https://www.zenodo.org/badge/671497428.svg)](https://www.zenodo.org/badge/latestdoi/671497428)
+[![DOI](https://zenodo.org/badge/788740798.svg)](https://zenodo.org/doi/10.5281/zenodo.11565325)
 
 # Repeat Finder - Finding Repeats in DNA sequences
 
