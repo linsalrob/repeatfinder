@@ -84,7 +84,7 @@ def find_dna_repeats(rpt_search, verbose=False):
 
     ## NOTE: The numbers returned by find_repeats are 1 indexed!!
     if rpt_search.output == 'simple':
-        simple_print(rpt_search.dnaseqid, rpt_search.dnaseq, r)
+        simple_print(rpt_search.seqid, rpt_search.dnaseq, r)
     elif rpt_search.output == 'genbank':
         genbank_print(r)
 
@@ -98,7 +98,7 @@ def repeats_in_fasta(rpt_search, verbose=False):
         if verbose:
             print(f"Seqid: {seqid}\nSequence: {seq}", file=sys.stderr)
         rpt_search.dnaseq = seq
-        rpt_search.dnaseqid = seqid
+        rpt_search.seqid = seqid
         find_dna_repeats(rpt_search, verbose)
 
 

@@ -5,7 +5,7 @@ A class to hold the parameters for our repeat search
 __author__ = 'Rob Edwards'
 
 
-class RepeatSearch():
+class RepeatSearch:
     """
     A repeat search class that allows us to pass data around conveniently
     """
@@ -15,16 +15,46 @@ class RepeatSearch():
         self.minlen = minlen
         self.gaplen = gaplen
         self.output = output
-        self.dnaseq = None
-        self.dnaseqid = None
+        self._dnaseq = None
+        self._seqid = None
 
-    def set_dna_sequence(seqid, sequence):
-        self.dnaseqid = seqid
-        self.dnaseq = sequence
+    def set_dna_sequence(self, seqid: str, sequence: str) -> None:
+        """
+        Set the object's DNA sequence and ID
+        :param seqid: the sequence ID
+        :param sequence: the DNA sequence
+        """
+        self._seqid = seqid
+        self._dnaseq = sequence
 
-    def get_dna_sequence():
-        return self.dnaseq
+    @property
+    def dnaseq(self) -> str:
+        """
+        Get the DNA sequence
+        :return: the DNA sequence
+        """
+        return self._dnaseq
 
-    def get_seqid():
-        return self.dnaseqid
+    @dnaseq.setter
+    def dnaseq(self, dnaseq: str) -> None:
+        """
+        Set the object's DNA sequence'
+        :param dnaseq: the dna sequence
+        """
+        self._dnaseq = dnaseq
 
+    @property
+    def seqid(self):
+        """
+        Get the sequence id
+        :return: the sequence id
+        """
+        return self._seqid
+
+    @seqid.setter
+    def seqid(self, seqid: str) -> None:
+        """
+        Set the sequence id
+        :param seqid: the sequence id
+        """
+        self._seqid = seqid
